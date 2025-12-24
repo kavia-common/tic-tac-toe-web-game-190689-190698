@@ -1,189 +1,104 @@
+/* CSS Variables for Theme Management */
 :root {
-  --primary: #3b82f6;   /* blue */
-  --cyan: #06b6d4;      /* cyan */
-  --secondary: #64748b; /* slate */
-  --error: #ef4444;
-  --bg: #f9fafb;        /* light background */
-  --surface: #ffffff;   /* card surface */
-  --text: #111827;      /* gray-900 */
-  --muted: #6b7280;     /* gray-500 */
-  --ring: rgba(59,130,246,0.35);
+  /* Light theme colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #282c34;
+  --text-secondary: #61dafb;
+  --border-color: #e9ecef;
+  --button-bg: #007bff;
+  --button-text: #ffffff;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html, body, #root, .App {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  background: var(--bg);
-  color: var(--text);
+[data-theme="dark"] {
+  /* Dark theme colors */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #282c34;
+  --text-primary: #ffffff;
+  --text-secondary: #61dafb;
+  --border-color: #404040;
+  --button-bg: #0056b3;
+  --button-text: #ffffff;
 }
 
 .App {
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-
-/* Card container */
-.ttt-container {
-  width: 100%;
-  max-width: 460px;
-  background: var(--surface);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 20px rgba(17,24,39,0.06), 0 2px 6px rgba(17,24,39,0.04);
-  border: 1px solid rgba(15, 23, 42, 0.06);
-}
-
-/* Header */
-.ttt-header {
   text-align: center;
-  margin-bottom: 18px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.ttt-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  background: linear-gradient(90deg, var(--primary), var(--cyan));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-.ttt-turn {
-  margin-top: 8px;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: var(--bg-secondary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.App-link {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
   font-size: 14px;
-  color: var(--secondary);
-}
-
-/* Board */
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  width: 100%;
-  margin: 12px 0;
-}
-
-.square {
-  aspect-ratio: 1 / 1;
-  border-radius: 12px;
-  border: 1px solid rgba(100,116,139,0.18);
-  background: linear-gradient(180deg, rgba(59,130,246,0.06), rgba(6,182,212,0.06));
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 36px;
-  color: var(--text);
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 140ms ease, background 140ms ease, box-shadow 140ms ease, border-color 140ms ease, color 140ms ease;
-  user-select: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.square:hover {
-  transform: translateY(-1px);
-  border-color: rgba(59,130,246,0.45);
-  box-shadow: 0 0 0 6px var(--ring);
-}
-
-.square:active {
-  transform: translateY(0);
-}
-
-.square.disabled,
-.square.won {
-  cursor: default;
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   opacity: 0.9;
 }
 
-.square.x {
-  color: var(--primary);
-  text-shadow: 0 4px 18px rgba(59,130,246,0.3);
-}
-
-.square.o {
-  color: var(--cyan);
-  text-shadow: 0 4px 18px rgba(6,182,212,0.35);
-}
-
-.square.won {
-  background: linear-gradient(180deg, rgba(59,130,246,0.14), rgba(6,182,212,0.14));
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 8px rgba(6,182,212,0.25), inset 0 0 0 1px rgba(6,182,212,0.25);
-}
-
-/* Status and controls */
-.status {
-  margin-top: 8px;
-  text-align: center;
-  font-size: 15px;
-  color: var(--secondary);
-}
-
-.status.win {
-  color: var(--primary);
-  font-weight: 700;
-}
-
-.status.draw {
-  color: var(--muted);
-  font-weight: 600;
-}
-
-/* Restart button */
-.actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.button {
-  appearance: none;
-  border: 0;
-  border-radius: 9999px;
-  padding: 10px 16px;
-  font-weight: 700;
-  font-size: 14px;
-  background: linear-gradient(90deg, var(--primary), var(--cyan));
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(59,130,246,0.25), 0 3px 8px rgba(6,182,212,0.18);
-  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-  box-shadow: 0 12px 28px rgba(59,130,246,0.28), 0 6px 14px rgba(6,182,212,0.22);
-}
-
-.button:active {
+.theme-toggle:active {
   transform: translateY(0);
 }
 
-/* Footer note */
-.footer-note {
-  margin-top: 14px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* Reduce motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .square,
-  .button {
-    transition: none;
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    font-size: 12px;
   }
 }
